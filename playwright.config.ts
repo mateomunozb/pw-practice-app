@@ -5,14 +5,17 @@ require('dotenv').config();
 
 export default defineConfig<TestOptions>({
   timeout: 40000,
-  globalTimeout: 60000,
+  // globalTimeout: 60000,
   expect: {
-    timeout: 2000
+    timeout: 2000,
+    toMatchSnapshot: { maxDiffPixels: 50 }
   },
   retries: 1,
   reporter: [
     ['json', { outputFile: 'test-results/jsonReport.json' }],
-    ['junit', { outputFile: 'test-results/junitReport.xml' }]
+    ['junit', { outputFile: 'test-results/junitReport.xml' }],
+    // ['allure-playwright'],
+    ['html']
   ],
   use: {
     globalsQaURL: 'https://www.globalsqa.com/demo-site/draganddrop',
@@ -34,7 +37,7 @@ export default defineConfig<TestOptions>({
       name: 'dev',
       use: {
         ...devices['Desktop Chrome'],
-        baseURL: 'http://localhost:4201/'
+        baseURL: 'http://localhost:4200/'
       },
     },
 
@@ -61,4 +64,9 @@ export default defineConfig<TestOptions>({
       }
     }
   ],
+  webServer: {
+    command: 'npm run start',
+    url: 'http://localhost:4200/',
+    timeout:  3 * 60 * 1000
+  }
 });
