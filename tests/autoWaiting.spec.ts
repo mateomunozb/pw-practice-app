@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test.beforeEach(async({ page }) => {
-  await page.goto('http://uitestingplayground.com/ajax')
+  await page.goto(process.env.URL)
   await page.getByText('Button Triggering Ajax Request').click()
 })
 
@@ -37,6 +37,8 @@ test.skip('alternative wait', async({ page }) => {
 })
 
 test.skip('timeouts', async({ page }) => {
+  // test.setTimeout(10000)
+  test.slow()
   const successButton = page.locator('.bg-success')
   await successButton.click()
 })
